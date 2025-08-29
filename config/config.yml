@@ -1,0 +1,17 @@
+env: "prod"
+http_server:
+  port: 8081
+  host: localhost
+  timeout: 4s
+  timeout_idle: 60s
+database:
+  host: localhost
+  port: 5432
+  username: danil22
+  password: 12345
+  database_name: myDictionaryApp
+redis:
+  address: localhost:6379
+  password: 123
+  database: 0
+auth_server_address: "http://localhost:8080"

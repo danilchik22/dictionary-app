@@ -1,0 +1,52 @@
+package db
+
+import (
+	"dictionary_app/internal/models"
+
+	"gorm.io/gorm"
+)
+
+type DictionaryRepository struct {
+	db *gorm.DB
+}
+
+func NewDictionaryRepository(db *gorm.DB) *DictionaryRepository {
+	return &DictionaryRepository{db: db}
+}
+
+func (r *DictionaryRepository) Search(query string, limit int) ([]models.Dictionary, error) {
+	var results []models.Dictionary
+	err := r.db.Raw(
+		`SELECT id, word, definition FROM dictionary 
+	     WHERE word % $1
+		 AND similarity(word, $1) > 0.4
+	     ORDER BY similarity(word, $1) DESC
+	     LIMIT $2`,
+		query, limit,
+	).Scan(&results).Error
+	if err != nil {
+		return nil, err
+	}
+	return results, nil
+}
+
+func (r *DictionaryRepository) Total() (int64, error) {
+	var count int64
+	err := r.db.Table("dictionary").Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func (r *DictionaryRepository) AddNewWord(word string, definition string) (id int, err error) {
+	var newWord = models.Dictionary{
+		Word:       word,
+		Definition: definition,
+	}
+	result := r.db.Table("dictionary").Create(&newWord)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	return newWord.ID, nil
+}

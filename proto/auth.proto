@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "./gen;authpb";
+
+service AuthService {
+    rpc ValidateToken (RequestToken) returns (ResponseToken);
+}
+
+message RequestToken {
+    string token = 1;
+}
+
+message ResponseToken {
+    string token = 1;
+    repeated string roles = 2;
+    bool valid = 3;
+    string username = 4;
+    string error = 5;
+    bool needRefresh = 6;
+}
