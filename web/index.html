@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DictionaryApp Web</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>DictionaryApp Web</h1>
+
+    <div id="notification" class="notification" role="alert" aria-live="polite"></div>
+
+    <section id="loginView" class="view">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label>
+          Username
+          <input type="text" id="loginUsername" autocomplete="username" required />
+        </label>
+        <label>
+          Password
+          <input type="password" id="loginPassword" autocomplete="current-password" required />
+        </label>
+        <button type="submit">Login</button>
+      </form>
+      <div class="secondary">
+        <button id="toRegisterBtn" type="button">Go to Registration</button>
+      </div>
+    </section>
+
+    <section id="registerView" class="view hidden">
+      <h2>Register</h2>
+      <form id="registerForm">
+        <label>
+          Username
+          <input type="text" id="regUsername" required />
+        </label>
+        <label>
+          Password
+          <input type="password" id="regPassword" required />
+        </label>
+        <label>
+          Age
+          <input type="number" id="regAge" min="1" max="120" required />
+        </label>
+        <label>
+          Sex
+          <select id="regSex">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </label>
+        <button type="submit">Create Account</button>
+      </form>
+      <div class="secondary">
+        <button id="toLoginFromRegisterBtn" type="button">Back to Login</button>
+      </div>
+    </section>
+
+    <section id="dictionaryView" class="view hidden">
+      <div class="topbar">
+        <div class="tokens">
+          <span id="accessTokenPreview" class="token-preview"></span>
+        </div>
+        <div class="actions">
+          <button id="refreshTokenBtn" type="button">Refresh token</button>
+          <button id="logoutBtn" type="button" class="danger">Logout</button>
+        </div>
+      </div>
+
+      <h2>Dictionary</h2>
+
+      <div class="card">
+        <h3>Search word</h3>
+        <input type="text" id="searchInput" placeholder="Type to search..." />
+        <div id="searchResult" class="result"></div>
+        <div class="hint">Debounced search (300ms)</div>
+      </div>
+
+      <div class="card">
+        <h3>Total words</h3>
+        <button id="countBtn" type="button">Get total</button>
+        <div id="countResult" class="result"></div>
+      </div>
+
+      <div class="card">
+        <h3>Add new word</h3>
+        <form id="newWordForm">
+          <label>
+            Word
+            <input type="text" id="newWord" required />
+          </label>
+          <label>
+            Definition
+            <input type="text" id="newDefinition" required />
+          </label>
+          <button type="submit">Add</button>
+        </form>
+        <div id="newWordResult" class="result"></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html> 

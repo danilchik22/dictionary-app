@@ -1,0 +1,13 @@
+{
+  "name": "dictionaryapp-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Web client for DictionaryApp with a simple dev server and proxy.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "http-proxy": "^1.18.1"
+  }
+} 

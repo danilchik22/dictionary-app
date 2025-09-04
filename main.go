@@ -9,6 +9,7 @@ import (
 	"dictionary_app/storage"
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )
@@ -20,6 +21,13 @@ func main() {
 	}
 	storage.InitNewDatabase()
 	server := gin.Default()
+	r := gin.Default()
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}))
 	server.SetTrustedProxies([]string{"192.168.3.60"})
 	server.Use(middleware.LoggerMiddleware())
 	public := server.Group("/")
