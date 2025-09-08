@@ -4,7 +4,7 @@
   // --- Configuration ---
   // You can override base URL via ?baseUrl=... query param
   const urlParams = new URLSearchParams(window.location.search);
-  const DEFAULT_BACKEND = 'http://192.168.3.60:8081';
+  const DEFAULT_BACKEND = 'http://81.177.48.223:8081';
   const isDevProxy = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') && location.port === '5173' && !urlParams.get('baseUrl');
   const API_BASE = isDevProxy ? '' : (urlParams.get('baseUrl') || DEFAULT_BACKEND);
 
