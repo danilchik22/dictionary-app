@@ -35,7 +35,7 @@
     const token = getAccessToken();
     const preview = token ? token.slice(0, 12) + '...' : '(no token)';
     const el = $('#accessTokenPreview');
-    if (el) el.textContent = `Access: ${preview}`;
+    if (el) el.textContent = ``;
   };
 
   // --- API layer ---
