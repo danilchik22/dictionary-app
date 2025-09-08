@@ -25,13 +25,22 @@ func main() {
 	server.SetTrustedProxies([]string{"192.168.3.60"})
 	server.Use(middleware.LoggerMiddleware())
 	server.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://81.177.48.223:5173", "http://localhost:5173", "http://192.168.3.60:8081"},
+		AllowOrigins: []string{"http://81.177.48.223:5173", "http://localhost:5173", "http://192.168.3.60:8081"},
+		AllowOriginFunc: func(origin string) bool {
+			return origin == "http://81.177.48.223:5173" || origin == "http://localhost:5173"
+		},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"},
 		AllowHeaders:     []string{"Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"},
 		AllowCredentials: true,
 		ExposeHeaders:    []string{"Content-Length", "Authorization"},
 		MaxAge:           12 * time.Hour,
 	}))
+
+	// Ensure preflight requests are handled globally
+	server.OPTIONS("/*path", func(c *gin.Context) {
+		c.Status(204)
+	})
+
 	public := server.Group("/")
 	{
 		public.POST("/new_user", func(ctx *gin.Context) {
