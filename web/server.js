@@ -7,7 +7,7 @@ const { createProxyServer } = httpProxy;
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 5173);
-const BASE_URL = process.env.BASE_URL || 'http://192.168.3.60:8081';
+const BASE_URL = process.env.BASE_URL || 'http://81.177.48.223:8081';
 
 const proxy = createProxyServer({ target: BASE_URL, changeOrigin: true });
 
