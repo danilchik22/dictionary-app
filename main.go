@@ -20,7 +20,7 @@ func main() {
 	if err := mg.ApplySQLMigration(db, "migrations/001_initial.sql"); err != nil {
 		log.Fatal(err)
 	}
-	storage.InitNewDatabase()
+	go storage.InitNewDatabase()
 	server := gin.Default()
 	server.SetTrustedProxies([]string{"192.168.3.60"})
 	server.Use(middleware.LoggerMiddleware())
@@ -32,19 +32,6 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length", "Authorization"},
 		MaxAge:           12 * time.Hour,
 	}))
-
-	// Ensure preflight requests are handled globally
-	server.OPTIONS("/*path", func(c *gin.Context) {
-		origin := c.GetHeader("Origin")
-		if origin != "" {
-			c.Header("Access-Control-Allow-Origin", origin)
-		}
-		c.Header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,PATCH,HEAD")
-		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept, Origin, X-Requested-With")
-		c.Header("Access-Control-Expose-Headers", "Content-Length, Authorization")
-		c.Header("Access-Control-Allow-Credentials", "true")
-		c.Status(204)
-	})
 
 	public := server.Group("/")
 	{
