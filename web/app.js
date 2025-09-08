@@ -163,16 +163,6 @@
       notify('Logged out');
     });
 
-    $('#refreshTokenBtn').addEventListener('click', async () => {
-      notify('Refreshing token...');
-      try {
-        const { accessToken, refreshToken } = await apiRefresh();
-        storeTokens(accessToken, refreshToken);
-        notify('Token refreshed');
-      } catch (err) {
-        notify(err.message || 'Refresh failed', true);
-      }
-    });
   }
 
   function setupDictionaryFlows() {
