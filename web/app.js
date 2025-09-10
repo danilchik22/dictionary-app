@@ -4,7 +4,7 @@
   // --- Configuration ---
   // You can override base URL via ?baseUrl=... query param
   const urlParams = new URLSearchParams(window.location.search);
-  const DEFAULT_BACKEND = 'https://danildanil.duckdns.org/';
+  const DEFAULT_BACKEND = 'https://danildanil.duckdns.org';
   const isDevProxy = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') && location.port === '5173' && !urlParams.get('baseUrl');
   const API_BASE = isDevProxy ? '' : (urlParams.get('baseUrl') || DEFAULT_BACKEND);
 

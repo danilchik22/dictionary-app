@@ -34,30 +34,23 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	public := server.Group("/")
+	public := server.Group("/api/")
 	{
 		// Preflight for public endpoints
-		public.OPTIONS("/login", func(c *gin.Context) { c.Status(204) })
-		public.OPTIONS("/new_user", func(c *gin.Context) { c.Status(204) })
-		public.OPTIONS("/refresh", func(c *gin.Context) { c.Status(204) })
-
 		public.POST("/new_user", func(ctx *gin.Context) {
 			auth.CreateNewUser(ctx)
 		})
 		public.POST("/login", auth.UserLogin)
 		public.POST("/refresh", auth.Refresh)
+		public.OPTIONS("/*path", func(c *gin.Context) { c.Status(204) })
+
+		public.POST("/search", handler.SearchWord)
+		public.GET("/total_words", handler.TotalWords)
+		public.POST("/new_word", handler.NewWord)
 	}
 
-	authorized := server.Group("/api")
-	authorized.Use(middleware.TokenMiddleware())
-	{
-		// Preflight for API endpoints
-		authorized.OPTIONS("/*path", func(c *gin.Context) { c.Status(204) })
-
-		authorized.POST("/search", handler.SearchWord)
-		authorized.GET("/total_words", handler.TotalWords)
-		authorized.POST("/new_word", handler.NewWord)
-	}
+	// authorized := server.Group("/api")
+	// authorized.Use(middleware.TokenMiddleware())
 
 	err := server.Run("0.0.0.0:" + conf.GetConfig().HttpConfig.Port)
 	if err != nil {
