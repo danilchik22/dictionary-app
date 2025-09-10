@@ -25,7 +25,8 @@ func main() {
 	server.SetTrustedProxies([]string{"192.168.3.60"})
 	server.Use(middleware.LoggerMiddleware())
 	server.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://81.177.48.223:5173", "http://localhost:5173", "http://192.168.3.60:8081"},
+		AllowOrigins: []string{"http://81.177.48.223:5173", "http://localhost:5173", "http://192.168.3.60:8081", "http://danildanil.duckdns.org",
+			"https://danildanil.duckdns.org"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"},
 		AllowHeaders:     []string{"Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"},
 		AllowCredentials: true,
