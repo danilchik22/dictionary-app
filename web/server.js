@@ -7,7 +7,7 @@ const { createProxyServer } = httpProxy;
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 5173);
-const BASE_URL = process.env.BASE_URL || 'https://danildanil.duckdns.org';
+const BASE_URL = process.env.BASE_URL || 'https://danildanil.duckdns.org/api';
 
 const proxy = createProxyServer({ target: BASE_URL, changeOrigin: true });
 
