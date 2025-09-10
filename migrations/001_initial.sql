@@ -7,5 +7,4 @@ CREATE TABLE IF NOT EXISTS dictionary  (
     definition TEXT NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_word_trgm ON dictionary USING gin(word gin_trgm_ops);
-CREATE INDEX IF NOT EXISTS idx_word_fts ON dictionary USING gin( to_tsvector('russian', word));
+CREATE INDEX IF NOT EXISTS idx_users_email_lower_pattern ON dictionary (lower(word) varchar_pattern_ops);

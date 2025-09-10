@@ -2,6 +2,9 @@ package db
 
 import (
 	"dictionary_app/internal/models"
+	sl "dictionary_app/utils/logger"
+	"strconv"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -16,14 +19,14 @@ func NewDictionaryRepository(db *gorm.DB) *DictionaryRepository {
 
 func (r *DictionaryRepository) Search(query string, limit int) ([]models.Dictionary, error) {
 	var results []models.Dictionary
-	err := r.db.Raw(
+	nanoseconds := time.Now().UnixNano()
+	err := r.db.Debug().Raw(
 		`SELECT id, word, definition FROM dictionary 
-	     WHERE word % $1
-		 AND similarity(word, $1) > 0.4
-	     ORDER BY similarity(word, $1) DESC
+	     WHERE lower(word) LIKE lower($1)
 	     LIMIT $2`,
-		query, limit,
+		query+"%", limit,
 	).Scan(&results).Error
+	sl.GetLogger().Info("Time searching:" + strconv.FormatInt(time.Now().UnixNano()-nanoseconds, 10))
 	if err != nil {
 		return nil, err
 	}
